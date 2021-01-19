@@ -35,7 +35,23 @@ export class TopologicalGraph<T> implements Iterable<T>{
         this._nodes.clear();
     }
 
+    *all(): IterableIterator<T> {
+        const results = new Set();
+        for (const [key, dependencies] of this._nodes) {
+            if (!results.has(key)) {
+                results.add(key);
+                yield key;
+            }
+            for (const dep of dependencies) {
+                if (!results.has(dep)) {
+                    results.add(dep);
+                    yield dep;
+                }
+            }
+        }
+    }
+
     [Symbol.iterator](): Iterator<T> {
-        return new TopologicalIterator(this._nodes.keys(), n => this.get(n));
+        return new TopologicalIterator(this.all(), n => this.get(n));
     }
 }
