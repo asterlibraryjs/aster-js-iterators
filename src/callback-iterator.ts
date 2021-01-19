@@ -1,4 +1,3 @@
-import { asserts } from "@aster-js/core";
 
 export class CallbackIterator<T> implements Iterator<T> {
     private _nextValue: T | undefined;
@@ -10,12 +9,14 @@ export class CallbackIterator<T> implements Iterator<T> {
         this._nextValue = initialValue;
     }
 
-    next(): IteratorResult<T, T> {
+    next(): IteratorResult<T> {
         const value = this._nextValue;
-        asserts.defined(value);
+
+        if (typeof value === "undefined") {
+            return { value, done: true };
+        }
 
         this._nextValue = this._nextCallback(value);
-
-        return { value, done: typeof this._nextValue === undefined };
+        return { value, done: false };
     }
 }
