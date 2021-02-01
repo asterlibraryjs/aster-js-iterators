@@ -1,12 +1,13 @@
 {
   "name": "@aster-js/iterators",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Aster iterators and iterables library part of Aster js library",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build",
     "build": "tsc",
+    "debug": "tsc --project tests/tsconfig.json  && rollup -c && karma start karma.debug.js",
     "test": "tsc --project tests/tsconfig.json  && rollup -c && karma start"
   },
   "directories": {
@@ -25,8 +26,8 @@
   "license": "ISC",
   "dependencies": {
     "tslib": "^1.11.1",
-    "@aster-js/core": "^1.0.0",
-    "@aster-js/collections": "^1.0.0"
+    "@aster-js/core": "^1.0.4",
+    "@aster-js/collections": "^1.0.1"
   },
   "devDependencies": {
     "rollup": "^1.31.0",
