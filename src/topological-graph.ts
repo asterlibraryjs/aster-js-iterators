@@ -1,14 +1,16 @@
-import { HashFactory, HashMap } from "@aster-js/collections";
+import { HashFactory, HashMap, HashSet } from "@aster-js/collections";
 import { TopologicalIterator } from "./topological";
 
 export class TopologicalGraph<T> implements Iterable<T>{
-    private readonly _nodes: HashMap<T, Set<T>>;
+    private readonly _nodes: HashMap<T, HashSet<T>>;
 
-    constructor(hashFactory?: HashFactory<T>) {
-        this._nodes = new HashMap(hashFactory);
+    constructor(
+        private readonly _hashFactory?: HashFactory<T>
+    ) {
+        this._nodes = new HashMap<T, HashSet<T>>(_hashFactory);
     }
 
-    *has(node: T): IterableIterator<T> {
+    has(node: T): boolean {
         return this._nodes.has(node);
     }
 
@@ -23,7 +25,10 @@ export class TopologicalGraph<T> implements Iterable<T>{
             for (let dep of dependencies) deps.add(dep);
         }
         else {
-            this._nodes.set(node, new Set(dependencies));
+            this._nodes.set(
+                node,
+                new HashSet(this._hashFactory, dependencies)
+            );
         }
     }
 
@@ -35,23 +40,24 @@ export class TopologicalGraph<T> implements Iterable<T>{
         this._nodes.clear();
     }
 
-    *all(): IterableIterator<T> {
-        const results = new Set();
-        for (const [key, dependencies] of this._nodes) {
-            if (!results.has(key)) {
-                results.add(key);
-                yield key;
-            }
-            for (const dep of dependencies) {
+    *nodes(): IterableIterator<T> {
+        const keys = [...this._nodes.keys()];
+        const results = new HashSet(this._hashFactory, keys);
+
+        // Nodes without dependencies are returned first
+        for (const values of this._nodes.values()) {
+            for (const dep of values) {
                 if (!results.has(dep)) {
                     results.add(dep);
                     yield dep;
                 }
             }
         }
+        // Last added supposedly have less dependencies
+        yield* keys.reverse();
     }
 
     [Symbol.iterator](): Iterator<T> {
-        return new TopologicalIterator(this.all(), n => this.get(n));
+        return new TopologicalIterator(this.nodes(), n => this.get(n));
     }
 }
