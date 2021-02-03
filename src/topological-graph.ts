@@ -58,6 +58,6 @@ export class TopologicalGraph<T> implements Iterable<T>{
     }
 
     [Symbol.iterator](): Iterator<T> {
-        return new TopologicalIterator(this.nodes(), n => this.get(n));
+        return new TopologicalIterator(this.nodes(), n => this.get(n), this._hashFactory);
     }
 }
