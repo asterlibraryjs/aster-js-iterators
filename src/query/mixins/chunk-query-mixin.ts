@@ -2,6 +2,11 @@ import { IQuery, TransformDelegate } from "../iquery";
 import { QueryMixin } from "./apply-mixins";
 
 export interface IChunkQueryMixin<T = any> {
+   /**
+     * Creates chunks of items using the maximum provided size.
+     * @param batchSize - The maximum size of each chunk.
+     * @returns A query containing arrays of items grouped into chunks.
+     */
     chunk(batchSize: number): IQuery<T[]>;
 }
 

@@ -1,10 +1,10 @@
 import { ISortedQuery, TransformDelegate, IQuery, AsyncTransformDelegate, IAsyncQuery } from "./iquery";
 import { QueryBase } from "./query-base";
-import { SortQuery } from "./sort-query";
+import { SortedQuery } from "./sorted-query";
 import { AsyncTransformQuery, TransformQuery } from "./transform-query";
 
 function sort<T>(this: QueryBase<T>, sortFn: (left: any, right: any) => number): ISortedQuery<T> {
-    return new SortQuery(this, sortFn);
+    return new SortedQuery(this, sortFn);
 }
 
 function transform<T, R>(this: QueryBase<T>, predicate: TransformDelegate<T, R>): IQuery<R> {

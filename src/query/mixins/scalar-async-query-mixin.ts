@@ -1,18 +1,92 @@
 import { AsyncQueryMixin } from "./apply-mixins";
 
 export interface IScalarAsyncQueryMixin<T = any> {
+    /**
+     * Determines whether the specified value is present in the iterable.
+     * @param value The value to search for.
+     * @param comparer Optional comparer function to customize equality check.
+     * @returns A Promise that resolves to a boolean indicating the presence of the specified value.
+     */
     includes(value: T, comparer?: (left: T, right: T) => boolean): Promise<boolean>;
+
+    /**
+     * Checks if any element in the iterable satisfies the specified predicate.
+     * @param predicate Optional predicate function to evaluate elements.
+     * @returns A Promise that resolves to a boolean indicating if any element satisfies the predicate.
+     */
     hasAny(predicate?: (item: T, rank: number) => Promise<boolean> | boolean): Promise<boolean>;
+
+    /**
+     * Checks if all elements in the iterable satisfy the specified predicate.
+     * @param predicate Predicate function to evaluate elements.
+     * @returns A Promise that resolves to a boolean indicating if all elements satisfy the predicate.
+     */
     every(predicate: (item: T, rank: number) => Promise<boolean> | boolean): Promise<boolean>;
+
+    /**
+     * Retrieves the first element of the iterable.
+     * @param fallback The value to return if the iterable is empty.
+     * @returns A Promise that resolves to the first element or the specified fallback value.
+     */
     first(fallback: T): Promise<T>;
+
+    /**
+     * Retrieves the first element of the iterable.
+     * @returns A Promise that resolves to the first element or undefined if the iterable is empty.
+     */
     first(): Promise<T | undefined>;
+
+    /**
+     * Finds the first element in the iterable that satisfies the specified predicate.
+     * @param predicate Predicate function to evaluate elements.
+     * @param fallback The value to return if no matching element is found.
+     * @returns A Promise that resolves to the first matching element or the specified fallback value.
+     */
     findFirst(predicate: (item: T, rank: number) => Promise<boolean> | boolean, fallback: T): Promise<T>;
+
+    /**
+     * Finds the first element in the iterable that satisfies the specified predicate.
+     * @param predicate Predicate function to evaluate elements.
+     * @returns A Promise that resolves to the first matching element or undefined if no matching element is found.
+     */
     findFirst(predicate: (item: T, rank: number) => Promise<boolean> | boolean): Promise<T | undefined>;
+
+    /**
+     * Finds the last element in the iterable that satisfies the specified predicate.
+     * @param predicate Predicate function to evaluate elements.
+     * @param fallback The value to return if no matching element is found.
+     * @returns A Promise that resolves to the last matching element or the specified fallback value.
+     */
     findLast(predicate: (item: T, rank: number) => Promise<boolean> | boolean, fallback: T): Promise<T>;
+
+    /**
+     * Finds the last element in the iterable that satisfies the specified predicate.
+     * @param predicate Predicate function to evaluate elements.
+     * @returns A Promise that resolves to the last matching element or undefined if no matching element is found.
+     */
     findLast(predicate: (item: T, rank: number) => Promise<boolean> | boolean): Promise<T | undefined>;
+
+    /**
+     * Retrieves the last element of the iterable.
+     * @param fallback The value to return if the iterable is empty.
+     * @returns A Promise that resolves to the last element or the specified fallback value.
+     */
     last(fallback: T): Promise<T>;
+
+    /**
+     * Retrieves the last element of the iterable.
+     * @returns A Promise that resolves to the last element or undefined if the iterable is empty.
+     */
     last(): Promise<T | undefined>;
+
+    /**
+     * Reduces the iterable to a single value by applying a reducer function.
+     * @param reducer Function to apply to each element in the iterable.
+     * @param seed The initial value of the accumulator.
+     * @returns A Promise that resolves to the accumulated result.
+     */
     reduce<R>(reducer: (previous: R, current: T) => R, seed: R): Promise<R>;
+
 }
 
 const NotFound = Symbol();

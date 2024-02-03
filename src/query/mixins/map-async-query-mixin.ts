@@ -2,7 +2,18 @@ import { AsyncTransformDelegate, IAsyncQuery } from "../iquery";
 import { AsyncQueryMixin } from "./apply-mixins";
 
 export interface IMapAsyncQueryMixin<T = any> {
+    /**
+     * Transforms each item in the iterable, producing a new iterable of transformed elements.
+     * @param callback The asynchronous transformation function applied to each item.
+     * @returns An asynchronous query representing the transformed elements.
+     */
     map<R>(callback: (item: T, rank: number) => R): IAsyncQuery<R>;
+
+    /**
+     * Transforms each item in the iterable, producing a new iterable, and iteratively returns each element of the resulting iterable.
+     * @param callback The asynchronous transformation function applied to each item.
+     * @returns An asynchronous query representing the iteratively flattened elements of the transformed iterables.
+     */
     flatMap<R>(callback: (item: T, rank: number) => Iterable<R> | AsyncIterable<R>): IAsyncQuery<R>;
 }
 

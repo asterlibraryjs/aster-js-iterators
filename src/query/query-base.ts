@@ -8,9 +8,13 @@ export abstract class QueryBase<T> implements IQuery<T> {
 
     sort(sortFn: (left: any, right: any) => number): ISortedQuery<T> { throw new Error(); }
 
-    transform<R>(predicate: TransformDelegate<T, R>): IQuery<R>  { throw new Error(); }
+    transform<R>(predicate: TransformDelegate<T, R>): IQuery<R> { throw new Error(); }
 
-    transformAsync<R>(predicate: AsyncTransformDelegate<T, R>): IAsyncQuery<R>  { throw new Error(); }
+    transformAsync<R>(predicate: AsyncTransformDelegate<T, R>): IAsyncQuery<R> { throw new Error(); }
+
+    toArray(): T[] {
+        return [...this];
+    }
 
     abstract [Symbol.iterator](): IterableIterator<T>;
 

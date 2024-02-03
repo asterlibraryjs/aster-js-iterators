@@ -1,17 +1,90 @@
 import { QueryMixin } from "./apply-mixins";
 
 export interface IScalarQueryMixin<T = any> {
+    /**
+     * Checks if the specified value is present in the iterable.
+     * @param value The value to search for.
+     * @param comparer Optional comparer function to customize equality check.
+     * @returns A boolean indicating the presence of the specified value in the iterable.
+     */
     includes(value: T, comparer?: (left: T, right: T) => boolean): boolean;
+
+    /**
+     * Checks if any element in the iterable satisfies the specified predicate.
+     * @param predicate Optional predicate function to evaluate elements.
+     * @returns A boolean indicating if any element in the iterable satisfies the predicate.
+     */
     hasAny(predicate?: (item: T, rank: number) => boolean): boolean;
+
+    /**
+     * Checks if all elements in the iterable satisfy the specified predicate.
+     * @param predicate Predicate function to evaluate elements.
+     * @returns A boolean indicating if all elements in the iterable satisfy the predicate.
+     */
     every(predicate: (item: T, rank: number) => boolean): boolean;
+
+    /**
+     * Retrieves the first element of the iterable.
+     * @param fallback The value to return if the iterable is empty.
+     * @returns The first element or the specified fallback value.
+     */
     first(fallback: T): T;
+
+    /**
+     * Retrieves the first element of the iterable.
+     * @returns The first element or undefined if the iterable is empty.
+     */
     first(): T | undefined;
+
+    /**
+     * Finds the first element in the iterable that satisfies the specified predicate.
+     * @param predicate Predicate function to evaluate elements.
+     * @param fallback The value to return if no matching element is found.
+     * @returns The first matching element or the specified fallback value.
+     */
     findFirst(predicate: (item: T, rank: number) => boolean, fallback: T): T;
+
+    /**
+     * Finds the first element in the iterable that satisfies the specified predicate.
+     * @param predicate Predicate function to evaluate elements.
+     * @returns The first matching element or undefined if no matching element is found.
+     */
     findFirst(predicate: (item: T, rank: number) => boolean): T | undefined;
+
+    /**
+     * Finds the last element in the iterable that satisfies the specified predicate.
+     * @param predicate Predicate function to evaluate elements.
+     * @param fallback The value to return if no matching element is found.
+     * @returns The last matching element or the specified fallback value.
+     */
     findLast(predicate: (item: T, rank: number) => boolean, fallback: T): T;
-    findLast(predicate: (item: T, rank: number) => boolean): T | undefined
+
+    /**
+     * Finds the last element in the iterable that satisfies the specified predicate.
+     * @param predicate Predicate function to evaluate elements.
+     * @returns The last matching element or undefined if no matching element is found.
+     */
+    findLast(predicate: (item: T, rank: number) => boolean): T | undefined;
+
+    /**
+     * Retrieves the last element of the iterable.
+     * @param fallback The value to return if the iterable is empty.
+     * @returns The last element or the specified fallback value.
+     */
     last(fallback: T): T;
+
+    /**
+     * Retrieves the last element of the iterable.
+     * @returns The last element or undefined if the iterable is empty.
+     */
     last(): T | undefined;
+
+    /**
+     * Reduces the iterable to a single value by applying a reducer function.
+     * @param reducer Function to apply to each element in the iterable.
+     * @param seed The initial value of the accumulator.
+     * @returns The accumulated result.
+     */
     reduce<R>(reducer: (previous: R, current: T) => R, seed: R): R;
 }
 

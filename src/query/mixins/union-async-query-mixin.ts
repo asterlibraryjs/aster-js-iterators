@@ -2,8 +2,25 @@ import { AsyncTransformDelegate, IAsyncQuery } from "../iquery";
 import { AsyncQueryMixin } from "./apply-mixins";
 
 export interface IUnionAsyncQueryMixin<T = any> {
+    /**
+     * Creates an asynchronous query by combining the elements of the current query with those from the provided iterable.
+     * @param iterable The iterable or async iterable to union with the current query.
+     * @returns An asynchronous query containing the combined elements.
+     */
     union(iterable: Iterable<T> | AsyncIterable<T>): IAsyncQuery<T>;
+
+    /**
+     * Appends the specified item to the end of the current asynchronous query.
+     * @param item The item to append.
+     * @returns An asynchronous query with the item appended.
+     */
     append(item: T): IAsyncQuery<T>;
+
+    /**
+     * Prepends the specified item to the beginning of the current asynchronous query.
+     * @param item The item to prepend.
+     * @returns An asynchronous query with the item prepended.
+     */
     prepend(item: T): IAsyncQuery<T>;
 }
 
