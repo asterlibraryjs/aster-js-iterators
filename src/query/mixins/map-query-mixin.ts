@@ -2,10 +2,21 @@ import { IQuery, TransformDelegate } from "../iquery";
 import { QueryMixin } from "./apply-mixins";
 
 export interface IMapQueryMixin<T = any> {
+    /**
+     * Applies a transformation to each item in the iterable, producing a new iterable of transformed elements.
+     * @param callback The transformation function applied to each item.
+     * @returns A new query representing the transformed elements.
+     */
     map<R>(callback: (item: T, rank: number) => R): IQuery<R>;
+
+    /**
+     * Applies a transformation to each item in the iterable, producing a new iterable, and iteratively returns each element of the resulting iterable.
+     * @param callback The transformation function applied to each item.
+     * @returns A new query representing the iteratively flattened elements of the transformed iterables.
+     */
     flatMap<R>(callback: (item: T, rank: number) => Iterable<R>): IQuery<R>;
 }
-;
+
 
 export const IMapQueryMixin: QueryMixin = q =>
     class extends q implements IMapQueryMixin {

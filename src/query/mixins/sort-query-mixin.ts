@@ -2,7 +2,13 @@ import { ISortedQuery } from "../iquery";
 import { QueryMixin } from "./apply-mixins";
 
 export interface ISortQueryMixin<T = any> {
-    sortBy(predicate: (item: any) => any, desc?: boolean): ISortedQuery<T>
+    /**
+     * Sorts the query based on the specified predicate.
+     * @param predicate The sorting predicate function applied to each item.
+     * @param desc Optional flag indicating whether to sort in descending order (default is ascending).
+     * @returns A sorted query based on the specified predicate.
+     */
+    sortBy(predicate: (item: any) => any, desc?: boolean): ISortedQuery<T>;
 }
 
 export const ISortQueryMixin: QueryMixin = q =>

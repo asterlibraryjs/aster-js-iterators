@@ -1,7 +1,7 @@
 import { ArrayQuery } from "./array-query";
 import { AsyncQueryBase } from "./async-query-base";
 import { AsyncTransformDelegate, IAsyncQuery, ISortedAsyncQuery } from "./iquery";
-import { AsyncSortQuery } from "./sort-query";
+import { AsyncSortQuery } from "./sorted-query";
 import { AsyncTransformQuery } from "./transform-query";
 
 function transformAsync<T, R>(this: AsyncQueryBase<T>, predicate: AsyncTransformDelegate<T, R>): IAsyncQuery<R> {

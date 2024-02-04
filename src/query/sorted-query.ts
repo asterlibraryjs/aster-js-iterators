@@ -10,15 +10,15 @@ function combineSortFn<TSource>(first: (left: TSource, right: TSource,) => numbe
     };
 }
 
-export class SortQuery<T = any> extends QueryBase<T> implements ISortedQuery<T> {
+export class SortedQuery<T = any> extends QueryBase<T> implements ISortedQuery<T> {
     constructor(
         private readonly _iterable: Iterable<T>,
         private readonly _sortFn: (left: T, right: T,) => number
     ) { super(); }
 
-    thenBy(sortFn: (left: T, right: T,) => number): SortQuery<T> {
+    thenBy(sortFn: (left: T, right: T,) => number): SortedQuery<T> {
         const newSortFn = combineSortFn(this._sortFn, sortFn);
-        return new SortQuery(this._iterable, newSortFn);
+        return new SortedQuery(this._iterable, newSortFn);
     }
 
     *[Symbol.iterator](): IterableIterator<T> {

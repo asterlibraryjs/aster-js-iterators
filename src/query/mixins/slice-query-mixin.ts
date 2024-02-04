@@ -2,8 +2,26 @@ import { IQuery, TransformDelegate } from "../iquery";
 import { QueryMixin } from "./apply-mixins";
 
 export interface ISliceQueryMixin<T = any> {
+    /**
+     * Skips the specified number of items from the beginning of the query.
+     * @param skip The number of items to skip.
+     * @returns A query containing the remaining items after skipping.
+     */
     skip(skip: number): IQuery<T>;
+
+    /**
+     * Takes the specified number of items from the beginning of the query.
+     * @param take The number of items to take.
+     * @returns A query containing the taken items.
+     */
     take(take: number): IQuery<T>;
+
+    /**
+     * Slices the query, skipping the specified number of items and taking the specified number of items.
+     * @param skip The number of items to skip.
+     * @param take The number of items to take.
+     * @returns A query containing the sliced items.
+     */
     slice(skip: number, take: number): IQuery<T>;
 }
 
