@@ -1,5 +1,5 @@
 import { HashFactory, HashMap, HashSet } from "@aster-js/collections";
-import { TopologicalIterator } from "./topological";
+import { TopologicalIterator } from "./topological-iterator";
 
 export class TopologicalGraph<T> implements Iterable<T>{
     private readonly _nodes: HashMap<T, HashSet<T>>;
