@@ -22,4 +22,14 @@ describe("TopologicalGraph", () => {
         assert.deepEqual([...graph].map(x => x.key), [ "bottom1", "bottom2", "middle1", "solo", "top1"]);
     });
 
+    it("Should be able to self reference", async () => {
+        const graph = new TopologicalGraph<{ key: string }>(x => x.key);
+
+        graph.add({ key: "solo" });
+        graph.add({ key: "top1" }, { key: "middle1" }, { key: "bottom1" }, { key: "solo" }, { key: "top1" });
+        graph.add({ key: "middle1" }, { key: "bottom1" }, { key: "bottom2" });
+
+        assert.deepEqual([...graph].map(x => x.key), [ "bottom1", "bottom2", "middle1", "solo", "top1"]);
+    });
+
 });
