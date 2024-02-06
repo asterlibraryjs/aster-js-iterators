@@ -11,7 +11,7 @@ export class TopologicalIterator<T> implements Iterator<T> {
         private readonly _resolver: DependencyResolver<T>,
         hashFactory?: HashFactory<T>
     ) {
-        this._resolveds = new HashSet<T>();
+        this._resolveds = new HashSet<T>(hashFactory);
         this._remaings = new HashMap(
             hashFactory,
             [...src].map(item => [item, [...this._resolver(item)]])
