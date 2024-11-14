@@ -22,6 +22,17 @@ export interface IUnionQueryMixin<T = any> {
      * @returns A query with the item prepended.
      */
     prepend(item: T): IQuery<T>;
+    /**
+     * Surrounds the current query with the specified item put at the beginning and the end of the query.
+     * @param item Item to surround the query with.
+     */
+    surround(item: T): IQuery<T>;
+    /**
+     * Surrounds the current query with the specified items put at the beginning and the end of the query.
+     * @param first The first item to surround the query with.
+     * @param last The last item to surround the query with.
+     */
+    surround(first: T, last: T): IQuery<T>;
 }
 
 export const IUnionQueryMixin: QueryMixin = q =>
@@ -36,6 +47,10 @@ export const IUnionQueryMixin: QueryMixin = q =>
         }
         prepend(item: any): IQuery {
             const predicate = createPrepend(item);
+            return this.transform(predicate);
+        }
+        surround(first: unknown, last?: unknown): IQuery<any> {
+            const predicate = createSurround(first, typeof last === "undefined" ? first : last);
             return this.transform(predicate);
         }
     };
@@ -58,5 +73,13 @@ function createPrepend(item: any): TransformDelegate {
     return function* (src: Iterable<any>) {
         yield item;
         yield* src;
+    }
+}
+
+function createSurround(first: any, last: any): TransformDelegate {
+    return function* (src: Iterable<any>) {
+        yield first;
+        yield* src;
+        yield last;
     }
 }

@@ -87,6 +87,8 @@ export interface IScalarAsyncQueryMixin<T = any> {
      */
     reduce<R>(reducer: (previous: R, current: T) => R, seed: R): Promise<R>;
 
+    /** Create a string by concatenating all elements in the iterable. */
+    join(separator?: string): Promise<string>;
 }
 
 const NotFound = Symbol();
@@ -147,5 +149,10 @@ export const IScalarAsyncQueryMixin: AsyncQueryMixin = q =>
             let previous = seed;
             for await (const item of this) previous = await reducer(previous, item);
             return previous;
+        }
+
+        async join(separator?: string): Promise<string> {
+            const allValues = await this.toArray();
+            return allValues.join(separator);
         }
     };

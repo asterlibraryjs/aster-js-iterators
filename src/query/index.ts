@@ -17,18 +17,20 @@ export type AsyncQuery<T> = AsyncIterableQuery<T> | AsyncTransformQuery<T> | Asy
  * @param iterables Optional additional async iterables to union with the initial one.
  * @returns An asynchronous query capable of streaming and transforming results.
  */
- export function Query<T>(iterable: AsyncIterable<T>, ...iterables: AsyncIterable<T>[]): AsyncQuery<T>;
+export function Query<T>(iterable: AsyncIterable<T>, ...iterables: AsyncIterable<T>[]): AsyncQuery<T>;
 
- /**
-  * Creates a new synchronous query from the provided iterable.
-  * Enables sequential iteration over an iterable of elements and designed to minimize memory usage during iteration.
-  * @param iterable The initial iterable to create the query.
-  * @param iterables Optional additional iterables to union with the initial one.
-  * @returns A query capable of streaming and transforming results.
-  */
- export function Query<T>(iterable: Iterable<T>, ...iterables: Iterable<T>[]): Query<T>;
+/**
+ * Creates a new synchronous query from the provided iterable.
+ * Enables sequential iteration over an iterable of elements and designed to minimize memory usage during iteration.
+ * @param iterable The initial iterable to create the query.
+ * @param iterables Optional additional iterables to union with the initial one.
+ * @returns A query capable of streaming and transforming results.
+ */
+export function Query<T>(iterable: Iterable<T> | string, ...iterables: Iterable<T>[]): Query<T>;
 
 export function Query<T>(iterable: Iterable<T> | AsyncIterable<T>, ...iterables: Iterable<T>[] | AsyncIterable<T>[]): Query<T> | AsyncQuery<T> {
+    if (typeof iterable === "string") return new ArrayQuery(iterable);
+
     if (Iterables.cast(iterable)) {
         if (iterables.length) {
             return new UnionQuery(iterable, iterables as Iterable<T>[]);

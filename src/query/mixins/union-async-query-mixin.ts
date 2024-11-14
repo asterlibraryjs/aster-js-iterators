@@ -22,6 +22,17 @@ export interface IUnionAsyncQueryMixin<T = any> {
      * @returns An asynchronous query with the item prepended.
      */
     prepend(item: T): IAsyncQuery<T>;
+    /**
+     * Surrounds the current query with the specified item put at the beginning and the end of the query.
+     * @param item Item to surround the query with.
+     */
+    surround(item: T): IAsyncQuery<T>;
+    /**
+     * Surrounds the current query with the specified items put at the beginning and the end of the query.
+     * @param first The first item to surround the query with.
+     * @param last The last item to surround the query with.
+     */
+    surround(first: T, last: T): IAsyncQuery<T>;
 }
 
 export const IUnionAsyncQueryMixin: AsyncQueryMixin = q =>
@@ -36,6 +47,10 @@ export const IUnionAsyncQueryMixin: AsyncQueryMixin = q =>
         }
         prepend(item: any): IAsyncQuery {
             const predicate = createPrepend(item);
+            return this.transformAsync(predicate);
+        }
+        surround(first: unknown, last?: unknown): IAsyncQuery<any> {
+            const predicate = createSurround(first, typeof last === "undefined" ? first : last);
             return this.transformAsync(predicate);
         }
     };
@@ -58,5 +73,13 @@ function createPrepend(item: any): AsyncTransformDelegate {
     return async function* (src: AsyncIterable<any>) {
         yield item;
         yield* src;
+    }
+}
+
+function createSurround(first: any, last: any): AsyncTransformDelegate {
+    return async function* (src: AsyncIterable<any>) {
+        yield first;
+        yield* src;
+        yield last;
     }
 }
