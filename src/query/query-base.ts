@@ -1,4 +1,4 @@
-import { AsyncTransformDelegate, IAsyncQuery, IQuery, ISortedQuery, TransformDelegate } from "./iquery";
+import { SyncToAsyncTransformDelegate, IAsyncQuery, IQuery, ISortedQuery, TransformDelegate } from "./iquery";
 import { IIterableMixins, QueryMixins } from "./mixins";
 
 export interface QueryBase<T> extends IIterableMixins<T> { }
@@ -10,7 +10,7 @@ export abstract class QueryBase<T> implements IQuery<T> {
 
     transform<R>(predicate: TransformDelegate<T, R>): IQuery<R> { throw new Error(); }
 
-    transformAsync<R>(predicate: AsyncTransformDelegate<T, R>): IAsyncQuery<R> { throw new Error(); }
+    transformAsync<R>(predicate: SyncToAsyncTransformDelegate<T, R>): IAsyncQuery<R> { throw new Error(); }
 
     toArray(): T[] {
         return [...this];

@@ -6,6 +6,8 @@ export type TransformDelegate<T = any, R = T> = (src: Iterable<T>) => Iterable<R
 
 export type AsyncTransformDelegate<T = any, R = T> = (src: AsyncIterable<T>) => AsyncIterable<R>;
 
+export type SyncToAsyncTransformDelegate<T = any, R = T> = (src: Iterable<T>) => AsyncIterable<R>;
+
 export interface IQuery<T = any> extends Iterable<T>, IIterableMixins<T> {
     /**
      * Transforms the elements in the query based on the provided transformation function.
@@ -21,7 +23,7 @@ export interface IQuery<T = any> extends Iterable<T>, IIterableMixins<T> {
      * @param predicate The asynchronous transformation function applied to each element.
      * @returns An asynchronous query containing the transformed elements.
      */
-    transformAsync<R>(predicate: AsyncTransformDelegate<T, R>): IAsyncQuery<R>;
+    transformAsync<R>(predicate: SyncToAsyncTransformDelegate<T, R>): IAsyncQuery<R>;
 
     /**
      * Sorts the elements in the query based on the provided sorting function.

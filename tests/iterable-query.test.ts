@@ -75,4 +75,23 @@ describe("Query", () => {
         assert.deepEqual([...q], expected);
     });
 
+    it("Should surround with a value", async () => {
+        var q = Query<number>(ArrayOfInt)
+            .surround(44);
+
+        const expected = [44, ...ArrayOfInt, 44];
+
+        assert.deepEqual([...q], expected);
+    });
+
+    it("Should surround with multiple values", async () => {
+        var q = Query<number>(ArrayOfInt)
+            .surround(44)
+            .surround(10, 20);
+
+        const expected = [10, 44, ...ArrayOfInt, 44, 20];
+
+        assert.deepEqual([...q], expected);
+    });
+
 });

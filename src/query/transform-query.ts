@@ -6,7 +6,7 @@ export class TransformQuery<TSource = any, TResult = TSource> extends QueryBase<
     constructor(
         private readonly _iterable: Iterable<TSource>,
         private readonly _predicate: TransformDelegate<TSource, TResult>
-    ) {super(); }
+    ) { super(); }
 
     *[Symbol.iterator](): IterableIterator<TResult> {
         yield* this._predicate(this._iterable);
